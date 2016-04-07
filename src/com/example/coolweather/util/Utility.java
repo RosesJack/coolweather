@@ -71,7 +71,7 @@ public class Utility {
 	 */
 	public static boolean handleContiesResponse(CoolWeatherDB coolWeatherDB,
 			String response, int cityId) {
-			if(TextUtils.isEmpty(response)){
+			if(!TextUtils.isEmpty(response)){//这里第一次写的时候没有加上非“!”导致程序一直在进度条不动
 				String[] allCity = response.split(",");
 				if(allCity != null && allCity.length > 0){
 					for(String p : allCity){

@@ -146,14 +146,16 @@ public class CoolWeatherDB {
 	 */
 	public List<Country> loadCounties (int cityId){
 		List<Country> list = new ArrayList<Country>();
-		Cursor cursor = db.query("Country", null," cityId = ?", new String[] {String.valueOf(cityId)}, null, null, null);
+		Cursor cursor = db.query("Country", null," city_Id = ?", new String[] {String.valueOf(cityId)}, null, null, null);
 		if(cursor.moveToFirst()){
-			Country country = new Country();
-			country.setId(cursor.getInt(cursor.getColumnIndex("id")));
-			country.setCountryCode(cursor.getString(cursor.getColumnIndex("country_code")));
-			country.setCountryName(cursor.getString(cursor.getColumnIndex("country_name")));
-			country.setCityId(cityId);
-			list.add(country);
+			do {
+				Country country = new Country();
+				country.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				country.setCountryCode(cursor.getString(cursor.getColumnIndex("country_code")));
+				country.setCountryName(cursor.getString(cursor.getColumnIndex("country_name")));
+				country.setCityId(cityId);
+				list.add(country);
+			} while (cursor.moveToNext());//第一次写没有写do..while()语句导致只读了一个
 		}
 		if(cursor != null){
 			cursor.close();

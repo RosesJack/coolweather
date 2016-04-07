@@ -17,15 +17,19 @@ public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
 	 * City 建表
 	 */
 	public static final String CREATE_CITY = "create table City ("
-			+ " id integer primary key autoincrement ," + "city_name  text ,"
-			+ "city_code text," + "province_id integer	)";
+			+ " id integer primary key autoincrement ," 
+			+ "city_name  text ,"
+			+ "city_code text," 
+			+	"province_id integer	)";
 	/**
 	 * Country 建表
 	 */
-	public static final String CREATE_COUNTRY = "create table Country("
-			+ "id integer primary key autoincrement," + "country_name text,"
-			+ "country_code text" + "city_id integer)";
-
+	public static final String CREATE_COUNTRY ="create table Country ("
+			+ " id integer primary key autoincrement ," 
+			+ "country_name  text ,"
+			+ "country_code text," 
+			+	"city_id integer	)";//这里第一次写的时候“country_code text”后面少了逗号
+																				 //直接导致程序异常退出
 	/**
 	 * 重写构造方法
 	 * 

@@ -174,7 +174,7 @@ public class ChooseAreaActivity extends Activity {
 
 			@Override
 			public void onFinish(String response) {
-				System.out.println("进入了onFinish，这是传入的参数："+response);
+//				System.out.println("进入了onFinish，这是传入的参数："+response);
 				boolean result = false;
 				if ("province".equals(type)) {
 					result = Utility.handleProvincesResponse(coolWeatherDB,
