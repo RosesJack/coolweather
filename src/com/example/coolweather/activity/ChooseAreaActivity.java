@@ -1,6 +1,5 @@
 package com.example.coolweather.activity;
 
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import com.example.coolweather.util.HttpUtil;
 import com.example.coolweather.util.Utility;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,7 +61,7 @@ public class ChooseAreaActivity extends Activity {
 		adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, dataList);
 		listView.setAdapter(adapter);
-		coolWeatherDB = coolWeatherDB.getInstance(this);
+		coolWeatherDB = CoolWeatherDB.getInstance(this);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -152,7 +152,7 @@ public class ChooseAreaActivity extends Activity {
 	}
 
 	/**
-	 * 从数据库中进行搜索
+	 * 从服务器中进行搜索
 	 * 
 	 * @param code
 	 *            地点对应的编码
@@ -174,6 +174,7 @@ public class ChooseAreaActivity extends Activity {
 
 			@Override
 			public void onFinish(String response) {
+				System.out.println("进入了onFinish，这是传入的参数："+response);
 				boolean result = false;
 				if ("province".equals(type)) {
 					result = Utility.handleProvincesResponse(coolWeatherDB,

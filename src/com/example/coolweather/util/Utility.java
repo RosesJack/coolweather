@@ -55,7 +55,8 @@ public class Utility {
 					City city = new City();
 					city.setCityCode(array[0]);
 					city.setCityName(array[1]);
-					city.setId(provinceId);
+					//第一次把Province写成了Id ->这是导致第二个错误：第二级页面一直进度条
+					city.setProvinceId(provinceId);
 					//把解析后的数据存储到City表中
 					coolWeatherDB.saveCity(city);
 				}

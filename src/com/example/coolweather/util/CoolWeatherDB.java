@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class CoolWeatherDB {
 
@@ -57,6 +58,7 @@ public class CoolWeatherDB {
 			values.put("province_name", province.getProvinceName());
 			values.put("province_code", province.getProvinceCode());
 			db.insert("Province", null, values);
+			Log.d("TAG","Debug log");
 		}
 	}
 
@@ -116,6 +118,7 @@ public class CoolWeatherDB {
 				city.setCityName(cursor.getString(cursor
 						.getColumnIndex("city_name")));
 				city.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				city.setProvinceId(provinceId);
 				list.add(city);
 			} while (cursor.moveToNext());
 		}
@@ -149,6 +152,7 @@ public class CoolWeatherDB {
 			country.setId(cursor.getInt(cursor.getColumnIndex("id")));
 			country.setCountryCode(cursor.getString(cursor.getColumnIndex("country_code")));
 			country.setCountryName(cursor.getString(cursor.getColumnIndex("country_name")));
+			country.setCityId(cityId);
 			list.add(country);
 		}
 		if(cursor != null){

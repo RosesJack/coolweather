@@ -11,6 +11,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 public class HttpUtil {
 	public static void sendHttpRequest(final String address,
 			final HttpCallbackListener listener) {
@@ -41,7 +44,12 @@ public class HttpUtil {
 
 					if (listener != null) {
 						// 回调onFinish方法
-						listener.onFinish(sBuilder.toString());
+						String string = sBuilder.toString();
+						if(TextUtils.isEmpty(string)){
+							string="21|bineg";
+						}
+						listener.onFinish(string);
+						System.out.println("这是onfinish后,传过去的string是："+string);
 					}
 				} catch (Exception e) {
 					if(listener != null){

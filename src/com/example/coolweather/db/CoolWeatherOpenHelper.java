@@ -10,21 +10,21 @@ public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
 	 * Province 表建表
 	 */
 	public static final String CREATE_PROVINCE = "create table Province("
-			+ "id integer primary key autoincrement," + "city_name text,"
-			+ "city_code text" + "province_id integer)";
-
+			+ "id integer primary key autoincrement," + "province_name text,"
+			+ "province_code text)";//第一次写的时候出现了进度条一直转的情况，错误提示找不到列名“province_name”,"province_code"
+																							//原来之前错把province写成city了
 	/**
 	 * City 建表
 	 */
 	public static final String CREATE_CITY = "create table City ("
 			+ " id integer primary key autoincrement ," + "city_name  text ,"
-			+ "city_code text," + "province integer	)";
+			+ "city_code text," + "province_id integer	)";
 	/**
 	 * Country 建表
 	 */
 	public static final String CREATE_COUNTRY = "create table Country("
 			+ "id integer primary key autoincrement," + "country_name text,"
-			+ "country_code text" + "country_id integer)";
+			+ "country_code text" + "city_id integer)";
 
 	/**
 	 * 重写构造方法
