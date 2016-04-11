@@ -15,8 +15,12 @@ import com.example.coolweather.util.Utility;
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView.OnItemClickListener;
@@ -50,12 +54,28 @@ public class ChooseAreaActivity extends Activity {
 	private City selectedCity;
 	// 当前选中的级别
 	private int currentLevel;
-
+	
+	//是否从WeatherActivity中跳转过来
+	private boolean isFromWeatherActivity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		isFromWeatherActivity = getIntent().getBooleanExtra("BackToHome", false);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if(prefs.getBoolean("city_selected", false) && !isFromWeatherActivity){
+			Intent intent = new Intent(this,WeatherActivity.class);
+			startActivity(intent);
+			finish();
+		}
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.choose_area);
+		//自己实验返回重新选择||||||没有成功，在写入文件的时候出现错误
+//												 可能是因为SharedPreferences存储第二次写入有其他约束|||这个“可能”是错误的猜测
+//		if("BACK".equals(getIntent().getStringExtra("BackToHome"))){
+//			currentLevel = LEVEL_CITY;
+//		}
+		
 		listView = (ListView) findViewById(R.id.list_view);
 		titleText = (TextView) findViewById(R.id.title_text);
 		adapter = new ArrayAdapter<String>(this,
@@ -74,6 +94,12 @@ public class ChooseAreaActivity extends Activity {
 					selectedCity = cityList.get(position);
 					// 加载县级数据
 					queryCounties();
+				}else if (currentLevel == LEVEL_COUNTY) {
+					String countryCode = countriesList.get(position).getCountryCode();
+					Intent intent = new Intent (ChooseAreaActivity.this,WeatherActivity.class);
+					intent.putExtra("country_code", countryCode);
+					startActivity(intent);
+					finish();
 				}
 			}
 		});
@@ -207,6 +233,7 @@ public class ChooseAreaActivity extends Activity {
 			@Override
 			public void onError(Exception e) {
 				// 通过runONUiThread()
+				Log.e("debug_error", "Exception:"+Log.getStackTraceString(e));
 				runOnUiThread(new Runnable() {
 					public void run() {
 						closeProgressDialog();
@@ -251,6 +278,10 @@ public class ChooseAreaActivity extends Activity {
 		}else if (currentLevel == LEVEL_CITY) {
 			queryProvinces();
 		}else {
+			if(isFromWeatherActivity){
+				Intent intent = new Intent(this,WeatherActivity.class);
+				startActivity(intent);
+			}
 			finish();
 		}
 	}

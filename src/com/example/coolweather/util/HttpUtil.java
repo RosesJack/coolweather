@@ -10,6 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.text.TextUtils;
+import java.net.SocketTimeoutException;
+import java.io.EOFException;
 
 
 public class HttpUtil {
@@ -20,9 +23,8 @@ public class HttpUtil {
 			@Override
 			public void run() {
 				HttpURLConnection connection = null;
-				URL url;
 				try {
-					url = new URL(address);
+					URL	url = new URL(address);
 					connection = (HttpURLConnection) url.openConnection();
 					// 网络请求方式
 					connection.setRequestMethod("GET");
@@ -34,9 +36,9 @@ public class HttpUtil {
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(in));
 					StringBuilder sBuilder = new StringBuilder();
-					String line;
+					String line = null;
 
-					while ((line = reader.readLine()) != null) {
+					while ((line = reader.readLine()) != null ) {
 						sBuilder.append(line);
 					}
 
@@ -54,6 +56,10 @@ public class HttpUtil {
 					if(listener != null){
 						//回调onError()方法
 						listener.onError(e);
+					}
+				}finally{
+					if(connection != null){
+						connection.disconnect();
 					}
 				}
 			}
